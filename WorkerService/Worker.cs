@@ -13,12 +13,17 @@ public class Worker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        await PerformScopedBusinessOperation(stoppingToken);
+    }
+
+    private async Task PerformScopedBusinessOperation(CancellationToken stoppingToken)
+    {
         using var scope = _serviceProvider.CreateScope();
         var service = scope.ServiceProvider.GetRequiredService<IBusinessService>();
         
         await service.DoWork(stoppingToken);
     }
-    
+
     public override async Task StopAsync(CancellationToken cancellationToken)
     {
         await base.StopAsync(cancellationToken);
