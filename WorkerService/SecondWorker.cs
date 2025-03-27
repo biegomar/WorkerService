@@ -25,12 +25,19 @@ public class SecondWorker : BackgroundService
     public override async Task StopAsync(CancellationToken cancellationToken)
     {
         await base.StopAsync(cancellationToken);
-        _logger.LogInformation("SecondWorker stopped.");
+        if (_logger.IsEnabled(LogLevel.Information))
+        {
+            _logger.LogInformation("SecondWorker stopped.");
+        }
     }
 
-    public override Task StartAsync(CancellationToken cancellationToken)
+    public override async Task StartAsync(CancellationToken cancellationToken)
     {
-        _logger.LogInformation("SecondWorker started.");
-        return base.StartAsync(cancellationToken);
+        if (_logger.IsEnabled(LogLevel.Information))
+        {
+            _logger.LogInformation("SecondWorker started.");
+        }
+        
+        await base.StartAsync(cancellationToken);
     }
 }

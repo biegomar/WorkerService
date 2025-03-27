@@ -11,14 +11,11 @@ public class BusinessService : IBusinessService
     
     public async Task DoWork(CancellationToken stoppingToken)
     {
-        while (!stoppingToken.IsCancellationRequested)
+        if (_logger.IsEnabled(LogLevel.Information))
         {
-            if (_logger.IsEnabled(LogLevel.Information))
-            {
-                _logger.LogInformation($"{nameof(BusinessService)} running at: {DateTimeOffset.Now}");
-            }
-
-            await Task.Delay(5000, stoppingToken);
+            _logger.LogInformation($"{nameof(BusinessService)} running at: {DateTimeOffset.Now}");
         }
+
+        await Task.Delay(5000, stoppingToken);
     }
 }
